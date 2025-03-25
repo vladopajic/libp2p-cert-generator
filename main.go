@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
+	"crypto/rand"
 	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
@@ -24,6 +25,8 @@ const ( // raw values of private keys used as identity keys
 )
 
 func main() {
+	rand.Reader = &RandMockReader{false} // mock reader since EDSA will use it
+
 	fmt.Printf("\n\n====== Ed25519 Peer:\n")
 	data, err := hex.DecodeString(Ed25519Priv)
 	panicIfError(err)
